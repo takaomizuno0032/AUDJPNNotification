@@ -15,20 +15,22 @@ export const registeroutes = (): Router => {
 
     router.get(`/rate`, async (req, res) => {
         let result = {
-            base_currency: "",
-            quote_currency: "",
+            baseCurrency: "",
+            quoteCurrency: "",
+            updateDate: "",
             rate: 0,
         };
 
-        const baseCurrency = req.query.base_currencty.toString();
-        const quoteCurrency = req.query.quote_currency.toString();
+        const baseCurrency = (req.query.base_currencty as string) ?? "AUD";
+        const quoteCurrency = (req.query.quote_currency as string) ?? "JPY";
         try {
-            const rate = await getRate(baseCurrency, quoteCurrency);
-            if (rate !== undefined) {
+            const rateInfo = await getRate(baseCurrency, quoteCurrency);
+            if (rateInfo !== undefined) {
                 result = {
-                    base_currency: baseCurrency,
-                    quote_currency: quoteCurrency,
-                    rate: rate,
+                    baseCurrency: baseCurrency,
+                    quoteCurrency: quoteCurrency,
+                    updateDate: rateInfo.updateDate,
+                    rate: rateInfo.rate,
                 };
             }
 
