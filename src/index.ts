@@ -5,6 +5,7 @@ import * as bodyParser from "body-parser";
 import { loadDotEnv, getEnv } from "./services/env_service";
 loadDotEnv();
 import { registeroutes } from "./apis/v1/routes";
+import cron from "node-cron";
 const HTTP_BODY_LIMIT = "500mb";
 const API_VERSION = "/v1";
 
@@ -17,8 +18,20 @@ app.use(express.json());
 
 app.use(API_VERSION, registeroutes());
 
+const task = cron.schedule(
+    "0 9 * * *",
+    () => {
+        sendNotifiction();
+    },
+    {
+        scheduled: true,
+        timezone: "Australia/Brisbane",
+    }
+);
+
 function main() {
     const port = getEnv("APP_PORT") || "3000";
+    task.start();
     app.listen(port, () => {
         console.log("Port:", port);
     });
