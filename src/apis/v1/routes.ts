@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getRate } from "../../services/exchange_rate";
+import { getRate } from "../../services/exchange_rate_service";
 
 const VERSION = "v1";
 
