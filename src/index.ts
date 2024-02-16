@@ -4,8 +4,9 @@ import cors from "cors";
 import * as bodyParser from "body-parser";
 import { loadDotEnv, getEnv } from "./services/env_service";
 loadDotEnv();
-import { registerRoutes } from "./routes";
+import { registeroutes } from "./apis/v1/routes";
 const HTTP_BODY_LIMIT = "500mb";
+const API_VERSION = "/v1";
 
 const app = express();
 app.use(bodyParser.json({ limit: HTTP_BODY_LIMIT }));
@@ -13,7 +14,8 @@ app.use(bodyParser.urlencoded({ limit: HTTP_BODY_LIMIT, extended: true }));
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
-registerRoutes(app);
+
+app.use(API_VERSION, registeroutes());
 
 function main() {
     const port = getEnv("APP_PORT") || "3000";
