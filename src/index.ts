@@ -6,6 +6,7 @@ import { loadDotEnv, getEnv } from "./services/env_service";
 loadDotEnv();
 import { registeroutes } from "./apis/v1/routes";
 import cron from "node-cron";
+import { sendNotifiction } from "./services/line_service";
 const HTTP_BODY_LIMIT = "500mb";
 const API_VERSION = "/v1";
 
