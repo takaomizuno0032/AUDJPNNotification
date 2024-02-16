@@ -5,6 +5,8 @@ export type EnvItem = {
     DEBUG: boolean;
     APP_PORT: number;
     API_KEY: string;
+    LINE_ACCESS_TOKEN: string;
+    LINE_GROUP_ID: string;
 };
 
 export type EnvKey = keyof EnvItem;
