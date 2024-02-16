@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(API_VERSION, registeroutes());
 
 const task = cron.schedule(
-    "0 9 * * *",
+    "0 20 * * *",
     () => {
         sendNotifiction();
     },
