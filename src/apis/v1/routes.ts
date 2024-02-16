@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { getRate } from "../../services/exchange_rate_service";
+import { convertDate } from "../../utils/date_converter";
+import { sendNotifiction } from "../../services/line_service";
 
 const VERSION = "v1";
 
@@ -38,6 +40,11 @@ export const registeroutes = (): Router => {
         } catch (error) {
             res.status(500).send;
         }
+    });
+
+    router.get("/notification", (req, res) => {
+        sendNotifiction();
+        res.send("Notification sent!");
     });
 
     return router;
