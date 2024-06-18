@@ -10,6 +10,7 @@ export const sendNotifiction = async () => {
     const LINE_GROUP_ID = getEnv("LINE_GROUP_ID");
 
     const rateInfo = await getRate("AUD", "JPY");
+    console.log("rateInfo", rateInfo);
     const BrisbaneDate = convertDate(rateInfo.updateDate);
 
     const decision =
@@ -24,6 +25,10 @@ export const sendNotifiction = async () => {
         data: {
             to: LINE_GROUP_ID,
             messages: [
+                {
+                    type: "text",
+                    text: "デバック中。。。。。。。。！",
+                },
                 {
                     type: "text",
                     text: `今日のレートをお知らせします。${BrisbaneDate}現在の情報です。`,
