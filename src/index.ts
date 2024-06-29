@@ -7,6 +7,8 @@ loadDotEnv();
 import { registeroutes } from "./apis/v1/routes";
 import cron from "node-cron";
 import { sendNotifiction } from "./services/line_service";
+
+//バックエンドサーバーの設定
 const HTTP_BODY_LIMIT = "500mb";
 const API_VERSION = "/v1";
 
@@ -30,6 +32,7 @@ const task = cron.schedule(
     }
 );
 
+//エントリーポイント// 
 function main() {
     const port = getEnv("APP_PORT") || "3000";
     task.start();
