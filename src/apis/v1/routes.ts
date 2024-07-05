@@ -47,5 +47,7 @@ export const registeroutes = (): Router => {
         res.send("Notification sent!");
     });
 
+    //Open Aiへのrouteを通す
+
     return router;
 };
