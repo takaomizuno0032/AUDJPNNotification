@@ -53,7 +53,6 @@ export const registeroutes = (): Router => {
             translation: "",
             sentenceExample: "",
         };
-        // const word = req.query.word as string;
         try {
             // const wordInfo = await getEnglishWordInfo(word);
             // if (wordInfo !== undefined);
