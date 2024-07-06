@@ -47,5 +47,30 @@ export const registeroutes = (): Router => {
         res.send("Notification sent!");
     });
 
+    router.get("/englishwords", async (req, res) => {
+        let result = {
+            word: "",
+            translation: "",
+            sentenceExample: "",
+        };
+        try {
+            // const wordInfo = await getEnglishWordInfo(word);
+            // if (wordInfo !== undefined);
+            const wordinfo = {
+                word:"eat",
+                translation:"食べる" ,
+                sentenceExample:"I ate an apple",
+            }
+            result.word = wordinfo.word;
+            result.translation = wordinfo.translation;
+            result.sentenceExample = wordinfo.sentenceExample;
+
+            res.send(JSON.stringify(result));
+        } catch (error) {
+            console.error("Error fetching data from OpenAI", error);
+            res.status(500).send("Error fetching data from OpenAI");
+        }
+    });
+
     return router;
 };
