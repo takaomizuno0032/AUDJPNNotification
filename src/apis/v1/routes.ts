@@ -12,6 +12,7 @@ export const registeroutes = (): Router => {
     });
 
     router.get("/test", (req, res) => {
+        console.log("check")
         res.send("Hello AUDJPYNot server!");
     });
 
@@ -47,7 +48,29 @@ export const registeroutes = (): Router => {
         res.send("Notification sent!");
     });
 
-    //Open Aiへのrouteを通す
+    router.get("/englishwords", async (req, res) => {
+        let result = {
+            word: "",
+            translation: "",
+            sentenceExample: "",
+        };
+
+        const word = req.query.word as string;
+        try {
+            // const wordInfo = await getEnglishWordInfo(word);
+            // if (wordInfo !== undefined) 
+            const wordinfo = {
+                word:"eat",
+                translation:"食べる" ,
+                sentenceExample:"I ate an apple",
+            }
+
+            res.send(JSON.stringify(wordinfo));
+        } catch (error) {
+            console.error("Error fetching data from OpenAI", error);
+            res.status(500).send("Error fetching data from OpenAI");
+        }
+    });
 
     return router;
 };
