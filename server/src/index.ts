@@ -7,6 +7,7 @@ loadDotEnv();
 import { registeroutes } from "./apis/v1/routes";
 import cron from "node-cron";
 import { sendNotifiction } from "./services/line_service";
+import { prepareMongo } from "./models/mongo";
 const HTTP_BODY_LIMIT = "500mb";
 const API_VERSION = "/v1";
 
@@ -34,6 +35,7 @@ function main() {
     const port = getEnv("APP_PORT") || "3000";
     task.start();
     app.listen(port, () => {
+        prepareMongo();
         console.log("Port:", port);
     });
 }
