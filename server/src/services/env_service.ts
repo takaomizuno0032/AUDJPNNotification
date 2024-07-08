@@ -8,6 +8,10 @@ export type EnvItem = {
     LINE_ACCESS_TOKEN: string;
     LINE_GROUP_ID: string;
     OPENAI_API_KEY: string;
+    MONGO_HOST: string;
+    MONGO_USER: string;
+    MONGO_PASS: string;
+    MONGO_NAME: string;
 };
 
 export type EnvKey = keyof EnvItem;
