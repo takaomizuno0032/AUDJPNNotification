@@ -2,6 +2,8 @@ import { Router } from "express";
 import { getRate } from "../../services/exchange_rate_service";
 import { convertDate } from "../../utils/date_converter";
 import { sendNotifiction } from "../../services/line_service";
+import { getExampleEnglishWords } from "../../services/openai_service";
+import { WordInfo } from "../../types/word_info";
 
 const VERSION = "v1";
 
@@ -49,21 +51,15 @@ export const registeroutes = (): Router => {
 
     router.get("/englishwords", async (req, res) => {
         let result = {
-            word: "",
-            translation: "",
-            sentenceExample: "",
+            wordInfos: [],
         };
         try {
-            // const wordInfo = await getEnglishWordInfo(word);
-            // if (wordInfo !== undefined);
-            const wordinfo = {
-                word:"eat",
-                translation:"食べる" ,
-                sentenceExample:"I ate an apple",
+            const wordInfos: WordInfo[] = await getExampleEnglishWords();
+            if (wordInfos !== undefined) {
+                result = {
+                    wordInfos: wordInfos,
+                };
             }
-            result.word = wordinfo.word;
-            result.translation = wordinfo.translation;
-            result.sentenceExample = wordinfo.sentenceExample;
 
             res.send(JSON.stringify(result));
         } catch (error) {
