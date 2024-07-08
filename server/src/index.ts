@@ -35,7 +35,8 @@ function main() {
     const port = getEnv("APP_PORT") || "3000";
     task.start();
     app.listen(port, () => {
-        prepareMongo();
+        // TODO: @Issei MongoDBを使う段階まで開発が進んだらコメントアウトを外す
+        //prepareMongo();
         console.log("Port:", port);
     });
 }
