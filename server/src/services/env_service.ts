@@ -17,7 +17,7 @@ export const loadDotEnv = (): void => {
 };
 
 export const getEnv = <K extends EnvKey>(key: K): EnvItem[K] => {
-    const value = process.env[key];
+    const value: string = process.env[key] ?? "";
 
     if (/^\d+$/.test(value)) {
         return parseInt(value) as EnvItem[K];
