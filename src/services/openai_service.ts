@@ -24,25 +24,15 @@ export const getExampleEnglishWords = async (): Promise<WordInfo[]> => {
         });
 
         const resultTexts = completion.choices[0].message?.content.trim();
+        
         console.log("resultTexts:", resultTexts);
+        if (!resultTexts) {
+          throw new Error("No content returned from OpenAI API");
+        }
 
-        const dummyInfo = {
-            word: "apple",
-            translation: "りんご",
-            sentenceExample: "I like apple.",
-        };
+        const wordInfos: WordInfo[] = JSON.parse(resultTexts).words;
+        return wordInfos;
 
-        return [dummyInfo];
-
-        // let wordInfos: WordInfo[] = [];
-        //   if (!resultText) {
-        //       throw new Error("No content returned from OpenAI API");
-        //   }
-
-        //   wordInfos.push(wordInfo);
-        // }
-
-        //   return wordInfos;
     } catch (error) {
         console.error("Error fetching data from OpenAI:", error);
         throw new Error("Failed to fetch data from OpenAI");
