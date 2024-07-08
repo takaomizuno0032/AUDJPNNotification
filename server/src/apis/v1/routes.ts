@@ -50,7 +50,7 @@ export const registeroutes = (): Router => {
     });
 
     router.get("/englishwords", async (req, res) => {
-        let result = {
+        let result: { wordInfos: WordInfo[] } = {
             wordInfos: [],
         };
         try {

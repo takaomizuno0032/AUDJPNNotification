@@ -23,16 +23,15 @@ export const getExampleEnglishWords = async (): Promise<WordInfo[]> => {
             response_format: { type: "json_object" },
         });
 
-        const resultTexts = completion.choices[0].message?.content.trim();
-        
+        const resultTexts = completion.choices[0].message?.content?.trim();
+
         console.log("resultTexts:", resultTexts);
         if (!resultTexts) {
-          throw new Error("No content returned from OpenAI API");
+            throw new Error("No content returned from OpenAI API");
         }
 
         const wordInfos: WordInfo[] = JSON.parse(resultTexts).words;
         return wordInfos;
-
     } catch (error) {
         console.error("Error fetching data from OpenAI:", error);
         throw new Error("Failed to fetch data from OpenAI");
