@@ -2,6 +2,7 @@ import { Router } from "express";
 import { getRate } from "../../services/exchange_rate_service";
 import { convertDate } from "../../utils/date_converter";
 import { sendNotifiction } from "../../services/line_service";
+import { getExampleEnglishWord } from "../../services/openai_service";
 
 const VERSION = "v1";
 
@@ -54,16 +55,14 @@ export const registeroutes = (): Router => {
             sentenceExample: "",
         };
         try {
-            // const wordInfo = await getEnglishWordInfo(word);
-            // if (wordInfo !== undefined);
-            const wordinfo = {
-                word:"eat",
-                translation:"食べる" ,
-                sentenceExample:"I ate an apple",
+            const wordInfo = await getExampleEnglishWord();
+            if (wordInfo !== undefined){
+                result = {
+                    word: wordInfo.word,
+                    translation: wordInfo.translation,
+                    sentenceExample: wordInfo.sentenceExample,
+                };
             }
-            result.word = wordinfo.word;
-            result.translation = wordinfo.translation;
-            result.sentenceExample = wordinfo.sentenceExample;
 
             res.send(JSON.stringify(result));
         } catch (error) {

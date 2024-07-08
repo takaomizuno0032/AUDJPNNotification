@@ -7,6 +7,7 @@ export type EnvItem = {
     API_KEY: string;
     LINE_ACCESS_TOKEN: string;
     LINE_GROUP_ID: string;
+    OPENAI_API_KEY: string;
 };
 
 export type EnvKey = keyof EnvItem;
