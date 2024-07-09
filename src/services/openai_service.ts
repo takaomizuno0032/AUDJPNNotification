@@ -11,11 +11,11 @@ export const getExampleEnglishWords = async (): Promise<WordInfo[]> => {
         const completion = await openai.chat.completions.create({
             model: "gpt-3.5-turbo-1106",
             messages: [
-                { role: "system", content: "You are a helpful assistant." },
+                { role: "system", content: "You are an English native speaker." },
                 {
                     role: "user",
                     content:
-                        "List 10 English words with Japanese translations and example sentences. Format as a JSON array with 'word', 'translation', and 'sentenceExample'.",
+                        "Provide six IELTS 7.5 words and four native phrases not taught in school. Include Japanese translations and example sentences in a JSON array with 'word', 'translation', and 'sentenceExample'.",
                 },
             ],
             temperature: 0.7,
@@ -25,12 +25,12 @@ export const getExampleEnglishWords = async (): Promise<WordInfo[]> => {
 
         const resultTexts = completion.choices[0].message?.content.trim();
         
-        console.log("resultTexts:", resultTexts);
         if (!resultTexts) {
           throw new Error("No content returned from OpenAI API");
         }
 
         const wordInfos: WordInfo[] = JSON.parse(resultTexts).words;
+        console.log(wordInfos);
         return wordInfos;
 
     } catch (error) {

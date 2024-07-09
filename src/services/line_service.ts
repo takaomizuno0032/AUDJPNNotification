@@ -3,6 +3,7 @@ loadDotEnv();
 import { getRate } from "./exchange_rate_service";
 import axios from "axios";
 import { convertDate } from "../utils/date_converter";
+import { getExampleEnglishWords } from "./openai_service";
 
 export const sendNotifiction = async () => {
     const THRESHOLD = 95;
@@ -14,6 +15,13 @@ export const sendNotifiction = async () => {
 
     const decision =
         rateInfo.rate < THRESHOLD ? "替え時かも！" : "うーん、まだまだかな。";
+    
+    const wordInfos = await getExampleEnglishWords();
+    const wordMessages = wordInfos.map(wordInfo =>({
+        type: "text",
+        text: `word: ${wordInfo.word}\ntranslation: ${wordInfo.translation}\n例文: ${wordInfo.sentenceExample}`,
+    }))
+
     const options = {
         method: "POST",
         url: "https://api.line.me/v2/bot/message/push",
@@ -36,6 +44,8 @@ export const sendNotifiction = async () => {
                     type: "text",
                     text: decision,
                 },
+
+                ...wordMessages
             ],
         },
     };
