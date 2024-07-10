@@ -17,10 +17,9 @@ export const sendNotifiction = async () => {
         rateInfo.rate < THRESHOLD ? "替え時かも！" : "うーん、まだまだかな。";
     
     const wordInfos = await getExampleEnglishWords();
-    const wordMessages = wordInfos.map(wordInfo =>({
-        type: "text",
-        text: `word: ${wordInfo.word}\ntranslation: ${wordInfo.translation}\n例文: ${wordInfo.sentenceExample}`,
-    }))
+    const wordsMessage = wordInfos.map(wordInfo => 
+        `word: ${wordInfo.word}\ntranslation: ${wordInfo.translation}\n例文: ${wordInfo.sentenceExample}`
+    ).join("\n\n");
 
     const options = {
         method: "POST",
@@ -31,7 +30,8 @@ export const sendNotifiction = async () => {
         },
         data: {
             to: LINE_GROUP_ID,
-            messages: [
+            messages:
+            [
                 {
                     type: "text",
                     text: `今日のレートをお知らせします。${BrisbaneDate}現在の情報です。`,
@@ -44,8 +44,10 @@ export const sendNotifiction = async () => {
                     type: "text",
                     text: decision,
                 },
-
-                ...wordMessages
+                {
+                    type: "text",
+                    text: wordsMessage,
+                }
             ],
         },
     };

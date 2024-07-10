@@ -15,7 +15,7 @@ export const getExampleEnglishWords = async (): Promise<WordInfo[]> => {
                 {
                     role: "user",
                     content:
-                        "Provide six IELTS 7.5 words and four native phrases not taught in school. Include Japanese translations and example sentences in a JSON array with 'word', 'translation', and 'sentenceExample'.",
+                        "Provide seven IELTS 7.5 vocabulary words and three native phrases not commonly taught in school. Include Japanese translations and example sentences for each. Format the response as a JSON object with two arrays: 'words' and 'phrases'. Each item should have 'word', 'translation', and 'sentenceExample'.",
                 },
             ],
             temperature: 0.7,
@@ -24,13 +24,17 @@ export const getExampleEnglishWords = async (): Promise<WordInfo[]> => {
         });
 
         const resultTexts = completion.choices[0].message?.content.trim();
-        
+
         if (!resultTexts) {
           throw new Error("No content returned from OpenAI API");
         }
 
-        const wordInfos: WordInfo[] = JSON.parse(resultTexts).words;
-        console.log(wordInfos);
+        const parsedResponse = JSON.parse(resultTexts);
+        const wordInfos: WordInfo[] = [
+            ...parsedResponse.words,
+            ...parsedResponse.phrases
+        ];
+        
         return wordInfos;
 
     } catch (error) {
