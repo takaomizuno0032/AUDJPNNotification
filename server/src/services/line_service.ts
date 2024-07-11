@@ -3,6 +3,7 @@ loadDotEnv();
 import { getRate } from "./exchange_rate_service";
 import axios from "axios";
 import { convertDate } from "../utils/date_converter";
+import { getExampleEnglishWords } from "./openai_service";
 
 export const sendNotifiction = async () => {
     const THRESHOLD = 95;
@@ -14,6 +15,12 @@ export const sendNotifiction = async () => {
 
     const decision =
         rateInfo.rate < THRESHOLD ? "替え時かも！" : "うーん、まだまだかな。";
+    
+    const wordInfos = await getExampleEnglishWords();
+    const wordsMessage = wordInfos.map(wordInfo => 
+        `word: ${wordInfo.word}\ntranslation: ${wordInfo.translation}\n例文: ${wordInfo.sentenceExample}`
+    ).join("\n\n");
+
     const options = {
         method: "POST",
         url: "https://api.line.me/v2/bot/message/push",
@@ -23,7 +30,8 @@ export const sendNotifiction = async () => {
         },
         data: {
             to: LINE_GROUP_ID,
-            messages: [
+            messages:
+            [
                 {
                     type: "text",
                     text: `今日のレートをお知らせします。${BrisbaneDate}現在の情報です。`,
@@ -36,6 +44,10 @@ export const sendNotifiction = async () => {
                     type: "text",
                     text: decision,
                 },
+                {
+                    type: "text",
+                    text: wordsMessage,
+                }
             ],
         },
     };
