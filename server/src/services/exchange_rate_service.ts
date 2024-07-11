@@ -35,5 +35,12 @@ export const getRate = async (
         return rateInfo;
     } catch (error) {
         console.error(error);
+        const rateInfo: RateInfo = {
+            baseCurrency: baseCurrency,
+            quoteCurrency: quoteCurrency,
+            updateDate: "",
+            rate: 0,
+        };
+        return rateInfo;
     }
 };

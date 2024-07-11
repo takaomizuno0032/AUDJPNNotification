@@ -8,6 +8,10 @@ export type EnvItem = {
     LINE_ACCESS_TOKEN: string;
     LINE_GROUP_ID: string;
     OPENAI_API_KEY: string;
+    MONGO_HOST: string;
+    MONGO_USER: string;
+    MONGO_PASS: string;
+    MONGO_NAME: string;
 };
 
 export type EnvKey = keyof EnvItem;
@@ -17,7 +21,7 @@ export const loadDotEnv = (): void => {
 };
 
 export const getEnv = <K extends EnvKey>(key: K): EnvItem[K] => {
-    const value = process.env[key];
+    const value: string = process.env[key] ?? "";
 
     if (/^\d+$/.test(value)) {
         return parseInt(value) as EnvItem[K];
