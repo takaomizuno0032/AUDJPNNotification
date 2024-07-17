@@ -70,14 +70,31 @@ export const registeroutes = (): Router => {
     });
 
     router.post("/englishword", async (req, res) => {
-            const wordInfo: WordInfo = req.body;
-            try{
-                const result = await saveWordInfo(wordInfo);
-                res.status(200).send({ message: "Word saved successfully", id: result});
-            }catch(error){
-                res.status(500).send("Error saving the word")
-            }
-    
-        });
+        const result = {
+            messeage: "",
+            objectId: undefined
+        };
+
+        const word: string = req.body.word ?? "";
+        const translation: string = req.body.translation ?? "";
+        const sentenceExample: string = req.body.sentenceExample ?? "";
+        const wordInfo: WordInfo = {
+            word: word,
+            translation: translation,
+            sentenceExample: sentenceExample
+        };
+
+        try{
+            const objectId = await saveWordInfo(wordInfo);
+            result.objectId = objectId;
+            result.messeage = "Word saved successfully!";
+            res.send(JSON.stringify(result));
+        }catch(error){
+            result.messeage = "Error saving word."
+            res.status(500).send(JSON.stringify(result));
+        }
+
+    });
+
     return router;
 };
