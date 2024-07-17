@@ -4,6 +4,7 @@ import { convertDate } from "../../utils/date_converter";
 import { sendNotifiction } from "../../services/line_service";
 import { getExampleEnglishWords } from "../../services/openai_service";
 import { WordInfo } from "../../types/word_info";
+import { saveWordInfo } from "../../models/mongo";
 
 const VERSION = "v1";
 
@@ -68,5 +69,15 @@ export const registeroutes = (): Router => {
         }
     });
 
+    router.post("/englishword", async (req, res) => {
+            const wordInfo: WordInfo = req.body;
+            try{
+                const result = await saveWordInfo(wordInfo);
+                res.status(200).send({ message: "Word saved successfully", id: result});
+            }catch(error){
+                res.status(500).send("Error saving the word")
+            }
+    
+        });
     return router;
 };
