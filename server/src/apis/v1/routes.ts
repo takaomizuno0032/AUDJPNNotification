@@ -4,6 +4,7 @@ import { convertDate } from "../../utils/date_converter";
 import { sendNotifiction } from "../../services/line_service";
 import { getExampleEnglishWords } from "../../services/openai_service";
 import { WordInfo } from "../../types/word_info";
+import { saveWordInfo } from "../../models/mongo";
 
 const VERSION = "v1";
 
@@ -66,6 +67,33 @@ export const registeroutes = (): Router => {
             console.error("Error fetching data from OpenAI", error);
             res.status(500).send("Error fetching data from OpenAI");
         }
+    });
+
+    router.post("/englishword", async (req, res) => {
+        const result = {
+            messeage: "",
+            objectId: undefined
+        };
+
+        const word: string = req.body.word ?? "";
+        const translation: string = req.body.translation ?? "";
+        const sentenceExample: string = req.body.sentenceExample ?? "";
+        const wordInfo: WordInfo = {
+            word: word,
+            translation: translation,
+            sentenceExample: sentenceExample
+        };
+
+        try{
+            const objectId = await saveWordInfo(wordInfo);
+            result.objectId = objectId;
+            result.messeage = "Word saved successfully!";
+            res.send(JSON.stringify(result));
+        }catch(error){
+            result.messeage = "Error saving word."
+            res.status(500).send(JSON.stringify(result));
+        }
+
     });
 
     return router;

@@ -1,5 +1,6 @@
 import * as MongoDB from "mongodb";
 import { loadDotEnv, getEnv } from "../services/env_service";
+import { WordInfo } from "../types/word_info";
 loadDotEnv();
 
 const MONGO_HOST = getEnv("MONGO_HOST");
@@ -17,10 +18,24 @@ export const prepareMongo = async () => {
         .connect(url)
         .then((client) => {
             mongo = client.db(dbName);
-            mongo.collection("words").createIndex({ _id: 1 });
+            mongo.collection("wordInfos").createIndex({ word: 1 });
             console.log("Connected to MongoDB.");
         })
         .catch((error) => {
             console.error(error);
         });
 };
+
+export const saveWordInfo = async (wordInfo: WordInfo): Promise<string> =>{
+    try{
+        const result = await mongo.collection("wordInfos").insertOne(
+            {
+                word: wordInfo.word,
+                translation: wordInfo.translation,
+                sentenceExample: wordInfo.sentenceExample
+            });
+        return result.insertedId.toString();
+    } catch(error){
+        console.error(error);
+    } 
+}
