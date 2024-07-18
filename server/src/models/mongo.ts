@@ -18,7 +18,7 @@ export const prepareMongo = async () => {
         .connect(url)
         .then((client) => {
             mongo = client.db(dbName);
-            mongo.collection("wordInfos").createIndex({ _id: 1 });
+            mongo.collection("wordInfos").createIndex({ word: 1 });
             console.log("Connected to MongoDB.");
         })
         .catch((error) => {
@@ -28,7 +28,12 @@ export const prepareMongo = async () => {
 
 export const saveWordInfo = async (wordInfo: WordInfo): Promise<string> =>{
     try{
-        const result = await mongo.collection("wordInfos").insertOne(wordInfo);
+        const result = await mongo.collection("wordInfos").insertOne(
+            {
+                word: wordInfo.word,
+                translation: wordInfo.translation,
+                sentenceExample: wordInfo.sentenceExample
+            });
         return result.insertedId.toString();
     } catch(error){
         console.error(error);
