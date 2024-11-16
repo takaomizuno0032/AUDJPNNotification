@@ -7,15 +7,20 @@ const openai = new OpenAI({
 });
 
 export const getExampleEnglishWords = async (): Promise<WordInfo[]> => {
+    const numOfVocabulary = 3;
     try {
         const completion = await openai.chat.completions.create({
             model: "gpt-3.5-turbo-1106",
             messages: [
-                { role: "system", content: "You are an English native speaker." },
+                {
+                    role: "system",
+                    content: "You are an English native speaker.",
+                },
                 {
                     role: "user",
-                    content:
-                        "Provide seven IELTS 7.5 vocabulary words and three native phrases not commonly taught in school. Include Japanese translations and example sentences for each. Format the response as a JSON object with two arrays: 'words' and 'phrases'. Each item should have 'word', 'translation', and 'sentenceExample'.",
+                    content: `Provide ${numOfVocabulary} IELTS 7.5 vocabulary words and three native phrases not commonly taught in school.
+                     Include Japanese translations and example sentences for each. Format the response as a JSON object with two arrays:
+                     'words' and 'phrases'. Each item should have 'word', 'translation', and 'sentenceExample'.`,
                 },
             ],
             temperature: 0.7,
@@ -32,9 +37,9 @@ export const getExampleEnglishWords = async (): Promise<WordInfo[]> => {
         const parsedResponse = JSON.parse(resultTexts);
         const wordInfos: WordInfo[] = [
             ...parsedResponse.words,
-            ...parsedResponse.phrases
+            ...parsedResponse.phrases,
         ];
-        
+
         return wordInfos;
     } catch (error) {
         console.error("Error fetching data from OpenAI:", error);
