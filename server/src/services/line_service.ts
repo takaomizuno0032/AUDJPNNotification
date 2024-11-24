@@ -22,7 +22,7 @@ export const sendNotifiction = async () => {
     const wordsMessage = wordInfos
         .map(
             (wordInfo) =>
-                `word: ${wordInfo.word}\ntranslation: ${wordInfo.translation}\n例文: ${wordInfo.sentenceExample}`
+                `word: ${wordInfo.word}\n 発音記号: ${wordInfo.phoneticSymbol}\ntranslation: ${wordInfo.translation}\n例文: ${wordInfo.sentenceExample}`
         )
         .join("\n\n");
 
