@@ -29,7 +29,7 @@ export const getExampleEnglishWords = async (
                     role: "user",
                     content: `Provide the number of ${NUM_OF_WORDS} IELTS 7.5 vocabulary words and ${NUM_OF_PHRASES} native phrases not commonly taught in school.
                      Include Japanese translations and example sentences for each. Format the response as a JSON object with two arrays:
-                     'words' and 'phrases'. Each item should have 'word', 'translation', and 'sentenceExample'.`,
+                     'words' and 'phrases'. Each item should have 'word', 'phoneticSymbol', 'translation', and 'sentenceExample'.`,
                 },
                 {
                     role: "user",
