@@ -79,10 +79,12 @@ export const registeroutes = (): Router => {
         };
 
         const word: string = req.body.word ?? "";
+        const phoneticSymbol: string = req.body.phoneticSymbol ?? "";
         const translation: string = req.body.translation ?? "";
         const sentenceExample: string = req.body.sentenceExample ?? "";
         const wordInfo: WordInfo = {
             word: word,
+            phoneticSymbol: phoneticSymbol,
             translation: translation,
             sentenceExample: sentenceExample,
         };
