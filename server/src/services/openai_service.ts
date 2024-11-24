@@ -51,6 +51,7 @@ export const getExampleEnglishWords = async (
             ...parsedResponse.words,
             ...parsedResponse.phrases,
         ];
+        console.log("words from GPT:", wordInfos);
 
         return wordInfos;
     } catch (error) {
