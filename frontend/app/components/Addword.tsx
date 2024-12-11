@@ -21,20 +21,19 @@ export default function Addword() {
     }));
   };
 
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      await addWord(
-        {
-          word: wordInfo.word,
-          translation: wordInfo.translation,
-          sentenceExample: wordInfo.sentenceExample
-        }
-      );
+      await addWord(wordInfo);
       setWordInfo({ word: "", translation: "", sentenceExample: "" });
+      setSuccessMessage("Word added successfully!");
       router.refresh();
-    } catch (error) {
+      setTimeout(() => setSuccessMessage(null), 3000);
+      }catch (error) {
       console.error("Error adding word:", error);
+      setSuccessMessage(null);
     }
   };
 
@@ -46,7 +45,7 @@ export default function Addword() {
             name="word"
             value={wordInfo.word}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-400"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-400 text-black"
             type="text"
             placeholder="Word"
           />
@@ -57,7 +56,7 @@ export default function Addword() {
             name="translation"
             value={wordInfo.translation}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-400"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-400 text-black"
             type="text"
             placeholder="訳"
           />
@@ -68,7 +67,7 @@ export default function Addword() {
             name="sentenceExample"
             value={wordInfo.sentenceExample}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-400"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-400 text-black"
             type="text"
             placeholder="Example Sentence"
           />
@@ -80,6 +79,8 @@ export default function Addword() {
            </button>
         </div>
       </div>
+      {/* 成功メッセージを表示 */}
+      {successMessage&& <p className="text-green-500 text-sm">{successMessage}</p>}
     </form>
   );
 }
