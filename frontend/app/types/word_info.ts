@@ -1,5 +1,6 @@
 export interface WordInfo {
-    word: string;
-    translation: string;
-    sentenceExample: string;
+        word: string;
+        phoneticSymbol: string;
+        translation: string;
+        sentenceExample: string;
 }
