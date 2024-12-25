@@ -80,3 +80,19 @@ export const getWordInfosWithTimeRange = async (
         console.log(error);
     }
 };
+
+export const getAllSavedWords = async (): Promise<WordInfo[]> => {
+    try{
+        const result = await mongo
+         .collection("wordInfos")
+         .find({})
+         .sort({createdAt: -1})
+         .toArray();
+        const wordInfos = result as unknown as WordInfo[];
+        return wordInfos;
+    }
+    catch(error){
+        console.error("Error fetching all words", error);
+        throw error;
+    }
+}

@@ -9,6 +9,7 @@ export default function Addword() {
 
   const [wordInfo, setWordInfo] = useState({
     word: "",
+    phoneticSymbol: "",
     translation: "",
     sentenceExample: ""
   });
@@ -27,7 +28,7 @@ export default function Addword() {
     e.preventDefault();
     try {
       await addWord(wordInfo);
-      setWordInfo({ word: "", translation: "", sentenceExample: "" });
+      setWordInfo({ word: "", phoneticSymbol: "", translation: "", sentenceExample: "" });
       setSuccessMessage("Word added successfully!");
       router.refresh();
       setTimeout(() => setSuccessMessage(null), 3000);
@@ -79,7 +80,6 @@ export default function Addword() {
            </button>
         </div>
       </div>
-      {/* 成功メッセージを表示 */}
       {successMessage&& <p className="text-green-500 text-sm">{successMessage}</p>}
     </form>
   );

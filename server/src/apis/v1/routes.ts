@@ -11,6 +11,7 @@ import {
     saveWordInfo,
     saveWordInfos,
     getWordInfosWithTimeRange,
+    getAllSavedWords,
 } from "../../models/mongo";
 
 const VERSION = "v1";
@@ -97,6 +98,19 @@ export const registeroutes = (): Router => {
         } catch (error) {
             result.messeage = "Error saving word.";
             res.status(500).send(JSON.stringify(result));
+        }
+    });
+
+    router.get("/allenglishwords", async(req, res) => {
+        let result: { wordInfos: WordInfo[]} = {
+            wordInfos: [],
+        }
+        try {
+            result.wordInfos = await getAllSavedWords();
+            res.send(JSON.stringify(result));
+        }catch (error){
+            console.error("Error fetching all saved words:", error);
+            res.status(500).send("Error fethcing saved words.");
         }
     });
 
